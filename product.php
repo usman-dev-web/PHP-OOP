@@ -1,34 +1,35 @@
 <?php
 
 class Product {
-    public $judul = "judul",
-           $penulis = "penulis",
-           $penerbit = "penerbit",
-           $harga = 0;
+    public $judul,
+           $penulis,
+           $penerbit,
+           $harga;
 
-    // membuat method
+    
+    // membuat method construck
+    public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0)
+    {
+        $this->judul = $judul;
+        $this->penulis = $penulis;
+        $this->penerbit = $penerbit;
+        $this->harga = $harga;
+    }
+    // membuat method getLabel
     public function getLabel(){
         return "$this->penulis, $this->penerbit";
     }
 }
 
-// mencoba property
-// $product1 = new Product();
-// $product1->judul = "Spongebobs";
-// var_dump($product1);
 
-$product1 = new Product();
-$product1->judul = "Naruto";
-$product1->penulis = "Masashi Kishimoto";
-$product1->penerbit = "Shonen Jump";
-$product1->harga = 300000;
+$product1 = new Product("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000);
 
-$product2 = new Product();
-$product2->judul = "Uncharted";
-$product2->penulis = "Neil Druckmann";
-$product2->penerbit = "Sony Computer";
-$product2->harga = 25000;
+$product2 = new Product("Uncharted", "Neil Druckmann", "Sony Computer", 25000);
+
+$product3 = new Product("Spongebos", "ngk tau");
 
 echo "Komik : " . $product1->getLabel(); 
 echo "<br>";
 echo "Game : " . $product2->getLabel();
+echo "<br>";
+echo "Cartoon : " . $product3->getLabel();
