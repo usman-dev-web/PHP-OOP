@@ -21,6 +21,14 @@ class Product {
     }
 }
 
+class cetakInfoProduct{
+    public function cetak(Product $product){
+        $str = "{$product->judul} | {$product->getLabel()} (Rp. {$product->harga})";
+        
+        return $str;
+    }
+}
+
 
 $product1 = new Product("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000);
 
@@ -33,3 +41,7 @@ echo "<br>";
 echo "Game : " . $product2->getLabel();
 echo "<br>";
 echo "Cartoon : " . $product3->getLabel();
+echo "<br>";
+
+$infoProduct1 = new cetakInfoProduct();
+echo $infoProduct1->cetak($product1);
