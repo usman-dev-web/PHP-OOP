@@ -7,12 +7,11 @@ class Product
         $penerbit,
         $harga,
         $jmlHalaman,
-        $waktuMain,
-        $tipe;
+        $waktuMain;
 
 
     // membuat method construck
-    public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0, $waktuMain = 0, $tipe)
+    public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0, $waktuMain = 0)
     {
         $this->judul = $judul;
         $this->penulis = $penulis;
@@ -20,7 +19,6 @@ class Product
         $this->harga = $harga;
         $this->jmlHalaman = $jmlHalaman;
         $this->waktuMain = $waktuMain;
-        $this->tipe = $tipe;
     }
     // membuat method getLabel
     public function getLabel()
@@ -28,18 +26,27 @@ class Product
         return "$this->penulis, $this->penerbit";
     }
 
-    public function getInfoLengkap(){
-        $str = "{$this->tipe} : {$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ";
-        if($this->tipe == "Komik"){
-            $str .= "- {$this->jmlHalaman} Halaman.";
-        }else if($this->tipe == "Game"){
-            $str .= "~ {$this->waktuMain} Jam.";
-        }
+    public function getInfoProduct(){
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ";
 
         return $str;
     }
 }
 
+class Komik extends Product{
+    public function getInfoProduct()
+    {
+        $str = "Komik : {$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) - {$this->jmlHalaman} Halaman.";
+        return $str;
+    }
+}
+class Game extends Product{
+    public function getInfoProduct()
+    {
+        $str = "Game : {$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) - {$this->waktuMain} Jam.";
+        return $str;
+    }
+}
 class cetakInfoProduct
 {
     public function cetak(Product $product)
@@ -51,13 +58,13 @@ class cetakInfoProduct
 }
 
 
-$product1 = new Product("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100, 0, "Komik");
+$product1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100, 0);
 
-$product2 = new Product("Uncharted", "Neil Druckmann", "Sony Computer", 25000, 0, 50, "Game");
+$product2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 25000, 0, 50);
 
-echo $product1->getInfoLengkap();
+echo $product1->getInfoProduct();
 echo "<br>";
-echo $product2->getInfoLengkap();
+echo $product2->getInfoProduct();
 
 // $product3 = new Product("Spongebos", "ngk tau");
 
