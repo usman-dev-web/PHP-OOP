@@ -5,7 +5,8 @@ class Product
     public $judul,
         $penulis,
         $penerbit;
-    public $harga;
+    private $harga;
+    protected $diskon = 0;
 
 
     // membuat method construck
@@ -28,6 +29,10 @@ class Product
 
         return $str;
     }
+
+    public function getHarga(){
+        return $this->harga - ($this->harga * $this->diskon / 100);
+    }
 }
 
 class Komik extends Product
@@ -39,11 +44,17 @@ class Komik extends Product
 
         $this->jmlHalaman = $jmlHalaman;
     }
+
     public function getInfoProduct()
     {
         $str = "Komik : " . parent::getInfoProduct() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
+
+    public function setDiskon($diskon){
+        $this->diskon = $diskon;
+    }
+
 }
 class Game extends Product
 {
@@ -79,10 +90,11 @@ $product2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 25000, 50);
 echo $product1->getInfoProduct();
 echo "<br>";
 echo $product2->getInfoProduct();
-// echo "<hr>";
+echo "<hr>";
 
-// // $product1->harga = 20000;
-// echo $product1->harga;
+// $product1->harga = 20000;
+$product1->setDiskon(50);
+echo $product1->getHarga();
 
 // $product3 = new Product("Spongebos", "ngk tau");
 
