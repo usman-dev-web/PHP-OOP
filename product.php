@@ -2,11 +2,11 @@
 
 class Product
 {
-    public $judul,
-        $penulis,
-        $penerbit;
-    private $harga;
-    protected $diskon = 0;
+    private $judul,
+            $penulis,
+            $penerbit,
+            $harga,
+            $diskon = 0;
 
 
     // membuat method construck
@@ -30,8 +30,46 @@ class Product
         return $str;
     }
 
+    public function setJudul($judul){
+        if(!is_string($judul)){
+            throw new Exception("Judul harus string");
+        }
+        return $this->judul = $judul;
+    }
+
+    public function getJudul(){
+        return $this->judul;
+    }
+
+    public function setPenulis($penulis){
+        if(!is_string($penulis)){
+            throw new Exception("Nama Penulis Harus String");
+        }
+        return $this->penulis = $penulis;
+    }
+
+    public function getPenulis(){
+        return $this->penulis;
+    }
+
+    public function setPenerbit($penerbit){
+        return $this->penerbit = $penerbit;
+    }
+
+    public function getPenerbit(){
+        return $this->penerbit;
+    }
+
+    public function setHarga($harga){
+        return $this->harga = $harga;
+    }
+
     public function getHarga(){
         return $this->harga - ($this->harga * $this->diskon / 100);
+    }
+
+        public function setDiskon($diskon){
+        $this->diskon = $diskon;
     }
 }
 
@@ -49,10 +87,6 @@ class Komik extends Product
     {
         $str = "Komik : " . parent::getInfoProduct() . " - {$this->jmlHalaman} Halaman.";
         return $str;
-    }
-
-    public function setDiskon($diskon){
-        $this->diskon = $diskon;
     }
 
 }
@@ -96,14 +130,14 @@ echo "<hr>";
 $product1->setDiskon(50);
 echo $product1->getHarga();
 
-// $product3 = new Product("Spongebos", "ngk tau");
-
-// echo "Komik : " . $product1->getLabel();
-// echo "<br>";
-// echo "Game : " . $product2->getLabel();
-// echo "<br>";
-// echo "Cartoon : " . $product3->getLabel();
-// echo "<br>";
-
-// $infoProduct1 = new cetakInfoProduct();
-// echo $infoProduct1->cetak($product1);
+echo "<hr>";
+$product4 = new Product("barang baru");
+$product4->setJudul("mainan");
+echo $product4->getJudul();
+echo "<br>";
+$product4->setDiskon(20);
+$product4->setHarga(100000);
+echo $product4->getHarga();
+echo "<br>";
+$product4->setPenulis("Usman");
+echo $product4->getPenulis();
