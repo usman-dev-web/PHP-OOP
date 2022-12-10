@@ -105,6 +105,7 @@ class Komik extends Product implements InfoProduct
         return $str;
     }
 }
+
 class Game extends Product implements InfoProduct
 {
     public $waktuMain;
@@ -129,6 +130,7 @@ class Game extends Product implements InfoProduct
         return $str;
     }
 }
+
 class cetakInfoProduct
 {
     public $daftarProduct = [];
