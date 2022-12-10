@@ -1,12 +1,17 @@
 <?php
 
+interface InfoProduct
+{
+    public function getInfoProduct();
+}
+
 abstract class Product
 {
-    private $judul,
-            $penulis,
-            $penerbit,
-            $harga,
-            $diskon = 0;
+    protected $judul,
+        $penulis,
+        $penerbit,
+        $harga,
+        $diskon = 0;
 
 
     // membuat method construck
@@ -23,58 +28,61 @@ abstract class Product
         return "$this->penulis, $this->penerbit";
     }
 
-    abstract public function getInfoProduct();
+    abstract public function getInfo();
 
-    public function getInfo(){
-        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ";
-
-        return $str;
-    }
-
-    public function setJudul($judul){
-        if(!is_string($judul)){
+    public function setJudul($judul)
+    {
+        if (!is_string($judul)) {
             throw new Exception("Judul harus string");
         }
         return $this->judul = $judul;
     }
 
-    public function getJudul(){
+    public function getJudul()
+    {
         return $this->judul;
     }
 
-    public function setPenulis($penulis){
-        if(!is_string($penulis)){
+    public function setPenulis($penulis)
+    {
+        if (!is_string($penulis)) {
             throw new Exception("Nama Penulis Harus String");
         }
         return $this->penulis = $penulis;
     }
 
-    public function getPenulis(){
+    public function getPenulis()
+    {
         return $this->penulis;
     }
 
-    public function setPenerbit($penerbit){
+    public function setPenerbit($penerbit)
+    {
         return $this->penerbit = $penerbit;
     }
 
-    public function getPenerbit(){
+    public function getPenerbit()
+    {
         return $this->penerbit;
     }
 
-    public function setHarga($harga){
+    public function setHarga($harga)
+    {
         return $this->harga = $harga;
     }
 
-    public function getHarga(){
+    public function getHarga()
+    {
         return $this->harga - ($this->harga * $this->diskon / 100);
     }
 
-        public function setDiskon($diskon){
+    public function setDiskon($diskon)
+    {
         $this->diskon = $diskon;
     }
 }
 
-class Komik extends Product
+class Komik extends Product implements InfoProduct
 {
     public $jmlHalaman;
     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0)
@@ -90,8 +98,14 @@ class Komik extends Product
         return $str;
     }
 
+    public function getInfo()
+    {
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ";
+
+        return $str;
+    }
 }
-class Game extends Product
+class Game extends Product implements InfoProduct
 {
     public $waktuMain;
 
@@ -107,19 +121,27 @@ class Game extends Product
         $str = "Game : " . $this->getInfo() . " - {$this->waktuMain} Jam.";
         return $str;
     }
+
+    public function getInfo()
+    {
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ";
+
+        return $str;
+    }
 }
 class cetakInfoProduct
 {
     public $daftarProduct = [];
 
-    public function tambahProduct(Product $product){
+    public function tambahProduct(Product $product)
+    {
         $this->daftarProduct[] = $product;
     }
 
     public function cetak()
     {
         $str = "Daftar Product : <br>";
-        foreach($this->daftarProduct as $p){
+        foreach ($this->daftarProduct as $p) {
             $str .= "- {$p->getInfoProduct()} <br>";
         }
         return $str;
