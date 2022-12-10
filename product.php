@@ -1,6 +1,6 @@
 <?php
 
-class Product
+abstract class Product
 {
     private $judul,
             $penulis,
@@ -23,8 +23,9 @@ class Product
         return "$this->penulis, $this->penerbit";
     }
 
-    public function getInfoProduct()
-    {
+    abstract public function getInfoProduct();
+
+    public function getInfo(){
         $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ";
 
         return $str;
@@ -85,7 +86,7 @@ class Komik extends Product
 
     public function getInfoProduct()
     {
-        $str = "Komik : " . parent::getInfoProduct() . " - {$this->jmlHalaman} Halaman.";
+        $str = "Komik : " . $this->getInfo() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
 
@@ -100,18 +101,27 @@ class Game extends Product
 
         $this->waktuMain = $waktuMain;
     }
+
     public function getInfoProduct()
     {
-        $str = "Game : " . parent::getInfoProduct() . " - {$this->waktuMain} Jam.";
+        $str = "Game : " . $this->getInfo() . " - {$this->waktuMain} Jam.";
         return $str;
     }
 }
 class cetakInfoProduct
 {
-    public function cetak(Product $product)
-    {
-        $str = "{$product->judul} | {$product->getLabel()} (Rp. {$product->harga})";
+    public $daftarProduct = [];
 
+    public function tambahProduct(Product $product){
+        $this->daftarProduct[] = $product;
+    }
+
+    public function cetak()
+    {
+        $str = "Daftar Product : <br>";
+        foreach($this->daftarProduct as $p){
+            $str .= "- {$p->getInfoProduct()} <br>";
+        }
         return $str;
     }
 }
@@ -121,23 +131,7 @@ $product1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
 
 $product2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 25000, 50);
 
-echo $product1->getInfoProduct();
-echo "<br>";
-echo $product2->getInfoProduct();
-echo "<hr>";
-
-// $product1->harga = 20000;
-$product1->setDiskon(50);
-echo $product1->getHarga();
-
-echo "<hr>";
-$product4 = new Product("barang baru");
-$product4->setJudul("mainan");
-echo $product4->getJudul();
-echo "<br>";
-$product4->setDiskon(20);
-$product4->setHarga(100000);
-echo $product4->getHarga();
-echo "<br>";
-$product4->setPenulis("Usman");
-echo $product4->getPenulis();
+$cetakProduct = new cetakInfoProduct();
+$cetakProduct->tambahProduct($product1);
+$cetakProduct->tambahProduct($product2);
+echo $cetakProduct->cetak();
